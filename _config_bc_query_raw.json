@@ -1,0 +1,276 @@
+{
+  "schema": "bronze",
+  "control_table": "_bc_query_etl_control",
+  "watermark_column": "LastDateModified",
+  "batch_size": 20000,
+  "jobs": [
+    {
+      "id": 60101,
+      "object_name": "GCG1_Change Log Entry",
+      "service_name": "GCG1_Change_Log_Entry",
+      "enabled": true,
+      "load_mode": "entry_no_window",
+      "entry_no_column": "Entry_No",
+      "reload_rows": 1000000,
+      "primary_keys": ["Entry_No"]
+    },
+    {
+      "id": 60102,
+      "object_name": "GCG1_Consignment_Return_Header",
+      "service_name": "GCG1_Consignment_Return_Head",
+      "enabled": true,
+      "load_mode": "full",
+      "primary_keys": []
+    },
+    {
+      "id": 60103,
+      "object_name": "GCG1_Consignment_return_Line",
+      "service_name": "GCG1_Consignment_Return_Line",
+      "enabled": true,
+      "load_mode": "full",
+      "primary_keys": []
+    },
+    {
+      "id": 60104,
+      "object_name": "GCG1_Customer",
+      "service_name": "GCG1_Customer",
+      "enabled": true,
+      "load_mode": "full",
+      "primary_keys": []
+    },
+    {
+      "id": 60105,
+      "object_name": "GCG1_Default Dimension",
+      "service_name": "GCG1_Default_Dimension",
+      "enabled": true,
+      "load_mode": "full",
+      "primary_keys": ["Table_ID", "No", "Dimension_Code"]
+    },
+    {
+      "id": 60106,
+      "object_name": "GCG1_General Ledger Entries",
+      "service_name": "GCG1_General_Ledger_Entries",
+      "enabled": true,
+      "load_mode": "entry_no_window",
+      "entry_no_column": "EntryNo",
+      "reload_rows": 1000000,
+      "primary_keys": []
+    },
+    {
+      "id": 60107,
+      "object_name": "GCG1_item",
+      "service_name": "GCG1_item",
+      "enabled": true,
+      "load_mode": "full",
+      "primary_keys": []
+    },
+    {
+      "id": 60108,
+      "object_name": "GCG1_Item Category",
+      "service_name": "GCG1_Item_Category",
+      "enabled": true,
+      "load_mode": "full",
+      "primary_keys": []
+    },
+    {
+      "id": 60109,
+      "object_name": "GCG1_Item Ledger Entries",
+      "service_name": "GCG1_Item_Ledger_Entry",
+      "enabled": true,
+      "load_mode": "entry_no_window",
+      "entry_no_column": "EntryNo",
+      "reload_rows": 1000000,
+      "primary_keys": []
+    },
+    {
+      "id": 60110,
+      "object_name": "GCG1_Location",
+      "service_name": "GCG1_Location",
+      "enabled": true,
+      "load_mode": "full",
+      "primary_keys": []
+    },
+    {
+      "id": 60111,
+      "object_name": "GCG1_Posted Sales Credit Memo Header",
+      "service_name": "GCG1_PostedSalesCreditMemo",
+      "enabled": true,
+      "load_mode": "posting_date_window",
+      "reload_date_column": "PostingDate",
+      "reload_days": 90,
+      "primary_keys": []
+    },
+    {
+      "id": 60112,
+      "object_name": "GCG1_Posted Sales Credit Memo Line",
+      "service_name": "GCG1_PostedSalesCreditMemoLine",
+      "enabled": true,
+      "load_mode": "posting_date_window",
+      "reload_date_column": "PostingDate",
+      "reload_days": 90,
+      "primary_keys": []
+    },
+    {
+      "id": 60113,
+      "object_name": "GCG1_Posted Sales Invoice Header",
+      "service_name": "GCG1_PostedSalesInvoiceHeader",
+      "enabled": true,
+      "load_mode": "posting_date_window",
+      "reload_date_column": "Posting_Date",
+      "reload_days": 90,
+      "primary_keys": ["No"]
+    },
+    {
+      "id": 60114,
+      "object_name": "GCG1_Posted Sales Invoice Line",
+      "service_name": "GCG1_PostedSalesInvoiceLine",
+      "enabled": true,
+      "load_mode": "posting_date_window",
+      "reload_date_column": "PostingDate",
+      "reload_days": 90,
+      "primary_keys": []
+    },
+    {
+      "id": 60115,
+      "object_name": "GCG1_PostedPurchaseInvHead",
+      "service_name": "GCG1_PostedPurchaseInvHead",
+      "enabled": true,
+      "load_mode": "posting_date_window",
+      "reload_date_column": "PostingDate",
+      "reload_days": 90,
+      "primary_keys": []
+    },
+    {
+      "id": 60116,
+      "object_name": "GCG1_PostedPurchaseInvLine",
+      "service_name": "GCG1_PostedPurchaseInvLine",
+      "enabled": true,
+      "load_mode": "posting_date_window",
+      "reload_date_column": "PostingDate",
+      "reload_days": 90,
+      "primary_keys": []
+    },
+    {
+      "id": 60117,
+      "object_name": "GCG1_PostedPurchaseRecHead",
+      "service_name": "GCG1_PostedPurchaseRecHead",
+      "enabled": true,
+      "load_mode": "posting_date_window",
+      "reload_date_column": "PostingDate",
+      "reload_days": 90,
+      "primary_keys": []
+    },
+    {
+      "id": 60118,
+      "object_name": "GCG1_PostedPurchaseRecLine",
+      "service_name": "GCG1_PostedPurchaseRecLine",
+      "enabled": true,
+      "load_mode": "posting_date_window",
+      "reload_date_column": "PostingDate",
+      "reload_days": 90,
+      "primary_keys": []
+    },
+    {
+      "id": 60119,
+      "object_name": "GCG1_PurchaseOrdersHead",
+      "service_name": "GCG1_Purchase_Orders_Head",
+      "enabled": true,
+      "load_mode": "posting_date_window",
+      "reload_date_column": "PostingDate",
+      "reload_days": 90,
+      "primary_keys": []
+    },
+    {
+      "id": 60120,
+      "object_name": "GCG1_PurchaseLine",
+      "service_name": "GCG1_Purchase_Line",
+      "enabled": true,
+      "load_mode": "full",
+      "primary_keys": []
+    },
+    {
+      "id": 60121,
+      "object_name": "GCG1_SalesOrders",
+      "service_name": "GCG1_Sales_Orders",
+      "enabled": true,
+      "load_mode": "posting_date_window",
+      "reload_date_column": "Posting_Date",
+      "reload_days": 90,
+      "primary_keys": ["No"]
+    },
+    {
+      "id": 60122,
+      "object_name": "GCG1_SalesLine",
+      "service_name": "GCG1_Sales_Line",
+      "enabled": true,
+      "load_mode": "posting_date_window",
+      "reload_date_column": "PostingDate",
+      "reload_days": 90,
+      "primary_keys": []
+    },
+    {
+      "id": 60123,
+      "object_name": "GCG1_PriceListLine",
+      "service_name": "GCG1_Price_List_Line",
+      "enabled": true,
+      "load_mode": "full",
+      "primary_keys": []
+    },
+    {
+      "id": 60124,
+      "object_name": "GCG1_Vendor",
+      "service_name": "GCG1_Vendor",
+      "enabled": true,
+      "load_mode": "full",
+      "primary_keys": []
+    },
+    {
+      "id": 60125,
+      "object_name": "GCG1_WarehouseEntry",
+      "service_name": "GCG1_Warehouse_Entry",
+      "enabled": true,
+      "load_mode": "entry_no_window",
+      "entry_no_column": "EntryNo",
+      "reload_rows": 1000000,
+      "primary_keys": []
+    },
+    {
+      "id": 60126,
+      "object_name": "GCG1_Transfer Receipt Header",
+      "service_name": "GCG1_Transfer_Receipt_Header",
+      "enabled": true,
+      "load_mode": "posting_date_window",
+      "reload_date_column": "PostingDate",
+      "reload_days": 90,
+      "primary_keys": []
+    },
+    {
+      "id": 60127,
+      "object_name": "GCG1_Transfer Receipt Line",
+      "service_name": "GCG1_Transfer_Receipt_Line",
+      "enabled": true,
+      "load_mode": "full",
+      "primary_keys": []
+    },
+    {
+      "id": 60128,
+      "object_name": "GCG1_Sales Shipment Header",
+      "service_name": "GCG1_Sales_Shipment_Header",
+      "enabled": true,
+      "load_mode": "posting_date_window",
+      "reload_date_column": "PostingDate",
+      "reload_days": 90,
+      "primary_keys": []
+    },
+    {
+      "id": 60129,
+      "object_name": "GCG1_Sales Shipment Line",
+      "service_name": "GCG1_Sales_Shipment_Line",
+      "enabled": true,
+      "load_mode": "posting_date_window",
+      "reload_date_column": "PostingDate",
+      "reload_days": 90,
+      "primary_keys": []
+    }
+  ]
+}

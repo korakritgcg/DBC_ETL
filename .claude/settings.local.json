@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell($py = \\(Get-Command python -ErrorAction SilentlyContinue\\); if \\(-not $py\\) { $py = \\(Get-Command py -ErrorAction SilentlyContinue\\) }; if \\(-not $py\\) { \"NO_PYTHON\" } else { & $py.Source -m py_compile _base_etl.py Consignment_Return_Order.py Consignment_Return_Order_Line.py Default_Dimenstions.py items.py Item_Card.py Item_Categories.py Item_Units_of_Measure_Excel.py Page_posted_sales_credit_memo.py Posted_sales_credit_memos.py Posted_Sales_Credit_Memo_ExcelSalesCrMemoLines.py Posted_Sales_Invoice_Excel.py Purchase_Lines_Excel.py Purchase_Order_Line_Excel.py Sales_Order.py Sales_Order_Line.py Sales_Person.py Table_Information.py; if \\($LASTEXITCODE -eq 0\\) { \"PY_COMPILE_OK\" } else { \"PY_COMPILE_FAILED:$LASTEXITCODE\" } })",
+      "PowerShell($py = \\(Get-Command python -ErrorAction SilentlyContinue\\); if \\(-not $py\\) { $py = \\(Get-Command py -ErrorAction SilentlyContinue\\) }; & $py.Source -m py_compile _base_etl.py items.py Posted_Sales_Invoice_Excel.py Table_Information.py Consignment_Return_Order.py Sales_Order_Line.py; if \\($LASTEXITCODE -eq 0\\) { \"OK\" } else { \"FAILED:$LASTEXITCODE\" })",
+      "PowerShell($py = \\(Get-Command python -ErrorAction SilentlyContinue\\); if \\(-not $py\\) { $py = \\(Get-Command py -ErrorAction SilentlyContinue\\) }; & $py.Source -m py_compile _base_etl.py; if \\($LASTEXITCODE -eq 0\\) { \"OK\" } else { \"FAILED:$LASTEXITCODE\" })",
+      "PowerShell($py = \\(Get-Command python -ErrorAction SilentlyContinue\\); if \\(-not $py\\) { $py = \\(Get-Command py -ErrorAction SilentlyContinue\\) }; & $py.Source -m py_compile _base_etl.py Monthly_Ledger_Reload.py Monthly_Ledger_Reload_DAG.py; if \\($LASTEXITCODE -eq 0\\) { \"OK\" } else { \"FAILED:$LASTEXITCODE\" })",
+      "PowerShell($py = \\(Get-Command python -ErrorAction SilentlyContinue\\); if \\(-not $py\\) { $py = \\(Get-Command py -ErrorAction SilentlyContinue\\) }; & $py.Source -m py_compile _base_etl.py Monthly_Ledger_Reload.py General_Ledger_Entries.py Item_Ledger_Entries.py; if \\($LASTEXITCODE -eq 0\\) { \"OK\" } else { \"FAILED:$LASTEXITCODE\" })",
+      "PowerShell($py = \\(Get-Command python -ErrorAction SilentlyContinue\\); if \\(-not $py\\) { $py = \\(Get-Command py -ErrorAction SilentlyContinue\\) }; & $py.Source -m py_compile Monthly_Reload_General_Ledger_Entries.py Monthly_Reload_Item_Ledger_Entries.py Monthly_Ledger_Reload_DAG.py; if \\($LASTEXITCODE -eq 0\\) { \"OK\" } else { \"FAILED:$LASTEXITCODE\" })",
+      "PowerShell($py = \\(Get-Command python -ErrorAction SilentlyContinue\\); if \\(-not $py\\) { $py = \\(Get-Command py -ErrorAction SilentlyContinue\\) }; & $py.Source -m py_compile Diagnose_BC_Entry.py; if \\($LASTEXITCODE -eq 0\\) { \"OK\" } else { \"FAILED:$LASTEXITCODE\" })",
+      "PowerShell(python -c \"import pandas, sqlalchemy, pyodbc; print\\('pandas', pandas.__version__\\); print\\('sqlalchemy', sqlalchemy.__version__\\); print\\('pyodbc', pyodbc.version\\); print\\('ODBC drivers:', pyodbc.drivers\\(\\)\\)\")",
+      "PowerShell(python Test_Insert_Pipeline.py)",
+      "PowerShell(python Test_Query_Production.py)",
+      "PowerShell(python -m py_compile Monthly_Ledger_Reload_DAG.py)",
+      "PowerShell(if \\($LASTEXITCODE -eq 0\\) { \"OK\" } else { \"FAILED\" })",
+      "PowerShell(python -m py_compile \"c:\\\\GCG_Airflow\\\\dags\\\\DBC_to_Slip.py\" \"c:\\\\GCG_Airflow\\\\dags\\\\DBC_to_Slip_DAG.py\")",
+      "PowerShell(if \\($?\\) { \"OK - syntax valid\" })"
+    ]
+  }
+}

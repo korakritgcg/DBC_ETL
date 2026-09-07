@@ -1,0 +1,7 @@
+{
+    "server": "192.168.65.4",
+    "port": "5436",
+    "database": "slips_online",
+    "username": "postgres",
+    "password": "12369874"
+}

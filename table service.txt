@@ -1,0 +1,30 @@
+Type	Id	Object_Name	Service_Name
+Query	60101	GCG1_Change Log Entry	GCG1_Change_Log_Entry
+Query	60102	GCG1_Consignment_Return_Header	GCG1_Consignment_Return_Head
+Query	60103	GCG1_Consignment_return_Line	GCG1_Consignment_Return_Line
+Query	60104	GCG1_Customer	GCG1_Customer
+Query	60105	GCG1_Default Dimension	GCG1_Default_Dimension
+Query	60106	GCG1_General Ledger Entries	GCG1_General_Ledger_Entries
+Query	60107	GCG1_item	GCG1_item
+Query	60108	GCG1_Item Category	GCG1_Item_Category
+Query	60109	GCG1_Item Ledger Entries	GCG1_Item_Ledger_Entry
+Query	60110	GCG1_Location	GCG1_Location
+Query	60111	GCG1_Posted Sales Credit Memo Header	GCG1_PostedSalesCreditMemo
+Query	60112	GCG1_Posted Sales Credit Memo Line	GCG1_PostedSalesCreditMemoLine
+Query	60113	GCG1_Posted Sales Invoice Header	GCG1_PostedSalesInvoiceHeader
+Query	60114	GCG1_Posted Sales Invoice Line	GCG1_PostedSalesInvoiceLine
+Query	60115	GCG1_PostedPurchaseInvHead	GCG1_PostedPurchaseInvHead
+Query	60116	GCG1_PostedPurchaseInvLine	GCG1_PostedPurchaseInvLine
+Query	60117	GCG1_PostedPurchaseRecHead	GCG1_PostedPurchaseRecHead
+Query	60118	GCG1_PostedPurchaseRecLine	GCG1_PostedPurchaseRecLine
+Query	60119	GCG1_PurchaseOrdersHead	GCG1_Purchase_Orders_Head
+Query	60120	GCG1_PurchaseLine	GCG1_Purchase_Line
+Query	60121	GCG1_SalesOrders	GCG1_Sales_Orders
+Query	60122	GCG1_SalesLine	GCG1_Sales_Line
+Query	60123	GCG1_PriceListLine	GCG1_Price_List_Line
+Query	60124	GCG1_Vendor	GCG1_Vendor
+Query	60125	GCG1_WarehouseEntry	GCG1_Warehouse_Entry
+Query	60126	GCG1_Transfer Receipt Header	GCG1_Transfer_Receipt_Header
+Query	60127	GCG1_Transfer Receipt Line	GCG1_Transfer_Receipt_Line
+Query	60128	GCG1_Sales Shipment Header	GCG1_Sales_Shipment_Header
+Query	60129	GCG1_Sales Shipment Line	GCG1_Sales_Shipment_Line
