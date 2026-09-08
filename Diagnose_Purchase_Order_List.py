@@ -8,7 +8,7 @@ Usage (inside the airflow container):
 import json
 from urllib.parse import quote
 
-from _base_etl import load_configs, get_session, get_access_token
+from DBC_ETL._base_etl import load_configs, get_session, get_access_token
 
 PAGE = "Purchase_Order_List"
 

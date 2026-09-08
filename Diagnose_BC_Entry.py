@@ -10,7 +10,7 @@ import json
 import sys
 from urllib.parse import quote
 
-from _base_etl import load_configs, get_session, get_access_token
+from DBC_ETL._base_etl import load_configs, get_session, get_access_token
 
 
 KEY_FIELDS = [

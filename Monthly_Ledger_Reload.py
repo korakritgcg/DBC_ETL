@@ -9,7 +9,7 @@ replaces that window atomically.
 Window per table = Entry_No >= MIN(Entry_No) of rows whose Posting_Date is
 on/after the first day of the previous calendar month.
 """
-from _base_etl import (
+from DBC_ETL._base_etl import (
     get_logger,
     load_configs,
     get_session,
