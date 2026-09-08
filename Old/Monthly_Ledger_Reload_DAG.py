@@ -2,7 +2,7 @@ from airflow import DAG
 from airflow.operators.python import PythonOperator
 from datetime import datetime, timedelta
 
-from Monthly_Reload_Item_Ledger_Entries import run_etl as run_item_ledger
+from DBC_ETL.Old.Monthly_Reload_Item_Ledger_Entries import run_etl as run_item_ledger
 
 # Runs TWICE a week: 04:00 on Sunday and Wednesday.
 # - Schedule kept frequent so BC's Adjust Cost shifts (Expected -> Actual)

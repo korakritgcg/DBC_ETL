@@ -2,7 +2,7 @@ from urllib.parse import quote
 
 from sqlalchemy import text
 
-from _base_etl import ROWS_PER_COMMIT, fetch_page_with_token_refresh, flush_via_staging
+from DBC_ETL._base_etl import ROWS_PER_COMMIT, fetch_page_with_token_refresh, flush_via_staging
 
 
 def get_entry_bounds(engine, schema: str, table: str, entry_col: str) -> tuple[int | None, int | None]:

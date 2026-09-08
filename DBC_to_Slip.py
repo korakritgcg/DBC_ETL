@@ -15,7 +15,7 @@ import urllib.parse
 import pandas as pd
 from sqlalchemy import create_engine, text
 
-from _base_etl import get_logger
+from DBC_ETL._base_etl import get_logger
 
 logger = get_logger("dbc_to_slip_etl")
 

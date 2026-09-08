@@ -18,7 +18,7 @@ from sqlalchemy import create_engine
 from sqlalchemy import text
 from sqlalchemy.exc import InterfaceError, OperationalError
 
-from _base_etl import (
+from DBC_ETL._base_etl import (
     ROWS_PER_COMMIT,
     build_engine,
     fetch_page_with_token_refresh,

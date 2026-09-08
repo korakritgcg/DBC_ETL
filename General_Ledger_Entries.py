@@ -6,7 +6,7 @@ PK                     : Entry_No
 from urllib.parse import quote
 from sqlalchemy import text
 
-from _base_etl import (
+from DBC_ETL._base_etl import (
     get_logger,
     load_configs,
     get_session,
@@ -18,7 +18,7 @@ from _base_etl import (
     table_exists,
     ROWS_PER_COMMIT,
 )
-from _entry_no_auto_repair import repair_existing_entry_no_gaps
+from DBC_ETL._entry_no_auto_repair import repair_existing_entry_no_gaps
 
 logger = get_logger("General_Ledger_Entries_etl")
 

@@ -5,7 +5,7 @@ Window = Entry_No >= MIN(Entry_No) of rows whose Posting_Date is on/after the
 first day of the previous calendar month. That window is re-fetched from BC
 and replaced atomically (stage -> DELETE window + INSERT from stage).
 """
-from _base_etl import (
+from DBC_ETL._base_etl import (
     get_logger,
     load_configs,
     get_session,
@@ -14,7 +14,7 @@ from _base_etl import (
     get_sql_columns,
     reload_recent_window,
 )
-from _entry_no_auto_repair import repair_existing_entry_no_gaps
+from DBC_ETL._entry_no_auto_repair import repair_existing_entry_no_gaps
 
 logger = get_logger("Monthly_Reload_Item_Ledger_Entries_etl")
 

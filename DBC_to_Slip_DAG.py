@@ -1,7 +1,7 @@
 from airflow import DAG
 from airflow.operators.python import PythonOperator
 from datetime import datetime, timedelta
-from DBC_to_Slip import run_etl
+from DBC_ETL.DBC_to_Slip import run_etl
 
 # Full-refresh sync: SQL Server (DBC_PRD) -> PostgreSQL (slip), hourly.
 # - catchup=False prevents backlog storms.

@@ -6,13 +6,13 @@ Note: ข้อมูลเยอะ ใช้ fetch_page_with_token_refresh เ
 """
 from urllib.parse import quote
 
-from _base_etl import flush_fullload_append
+from DBC_ETL._base_etl import flush_fullload_append
 
 import pandas as pd
 from sqlalchemy import text
 from sqlalchemy.types import NVARCHAR
 
-from _base_etl import (
+from DBC_ETL._base_etl import (
     get_logger,
     load_configs,
     get_session,

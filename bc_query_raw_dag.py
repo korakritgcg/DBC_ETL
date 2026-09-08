@@ -8,7 +8,7 @@ import pendulum
 from airflow import DAG
 from airflow.operators.python import PythonOperator
 
-from bc_query_raw_etl import CONFIG_RAW, run_job
+from DBC_ETL.bc_query_raw_etl import CONFIG_RAW, run_job
 
 
 LOCAL_DIR = Path(__file__).resolve().parent

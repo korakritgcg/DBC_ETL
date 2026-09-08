@@ -6,7 +6,7 @@ from airflow.operators.python import PythonOperator
 
 
 def run_repair_from_dag(**context):
-    from Repair_Missing_Entry_No import repair_missing_entries
+    from DBC_ETL.Repair_Missing_Entry_No import repair_missing_entries
 
     conf = (context.get("dag_run").conf or {}) if context.get("dag_run") else {}
 

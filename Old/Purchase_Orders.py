@@ -14,7 +14,7 @@ import pandas as pd
 from sqlalchemy import text
 from sqlalchemy.types import NVARCHAR
 
-from _base_etl import (
+from DBC_ETL.Old._base_etl import (
     get_logger, load_configs, get_session, get_access_token,
     build_engine, fetch_page_with_token_refresh,
     get_sql_columns, table_exists, ROWS_PER_COMMIT,

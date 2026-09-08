@@ -1,7 +1,7 @@
 from airflow import DAG
 from airflow.operators.python import PythonOperator
 from datetime import datetime, timedelta
-from Purchase_Orders import run_etl
+from DBC_ETL.Old.Purchase_Orders import run_etl
 
 default_args = {
     "owner": "airflow",

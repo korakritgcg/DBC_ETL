@@ -6,7 +6,7 @@ from urllib.parse import quote
 
 from sqlalchemy import text
 
-from _base_etl import (
+from DBC_ETL._base_etl import (
     get_logger,
     load_configs,
     get_session,

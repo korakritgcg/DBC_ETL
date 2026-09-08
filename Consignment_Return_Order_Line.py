@@ -5,13 +5,13 @@ PK                     : UBC_Document_No + UBC_Line_No
 """
 from urllib.parse import quote
 
-from _base_etl import flush_fullload_append
+from DBC_ETL._base_etl import flush_fullload_append
 
 import pandas as pd
 from sqlalchemy import text
 from sqlalchemy.types import NVARCHAR
 
-from _base_etl import (
+from DBC_ETL._base_etl import (
     get_logger,
     load_configs,
     get_session,
