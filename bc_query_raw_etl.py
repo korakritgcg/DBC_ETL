@@ -28,7 +28,8 @@ import pandas as pd
 import requests
 from requests.adapters import HTTPAdapter
 from sqlalchemy import create_engine, text
-from sqlalchemy.types import NVARCHAR
+from sqlalchemy.types import DATE, TIME, NVARCHAR
+from sqlalchemy.dialects.mssql import DATETIME2, DATETIMEOFFSET
 from urllib3.util.retry import Retry
 
 
@@ -875,10 +876,10 @@ def _coerce_series(series: pd.Series, category: str) -> pd.Series:
         return pd.to_numeric(pd.Series([to_bit(v) for v in series], index=series.index), errors="coerce")
 
     if category == "datetime":
-        return pd.to_datetime(series, errors="coerce")
+        return pd.to_datetime(_null_bc_zero_dates(series), errors="coerce")
 
     if category == "date":
-        values = pd.to_datetime(series, errors="coerce")
+        values = pd.to_datetime(_null_bc_zero_dates(series), errors="coerce")
         return pd.Series(
             [v.date() if not pd.isna(v) else None for v in values],
             index=series.index,
@@ -897,10 +898,76 @@ def _coerce_series(series: pd.Series, category: str) -> pd.Series:
     return series
 
 
+def _null_bc_zero_dates(series: pd.Series) -> pd.Series:
+    """Replace BC's year-0001 sentinel before dateutil can read it as 2001."""
+    zero_date = series.astype("string").str.match(
+        r"^\s*0*1-0?1-0?1(?:[ T]|$)",
+        na=False,
+    )
+    return series.mask(zero_date)
+
+
+def _coerce_series_for_target_sql(series: pd.Series, sql_type: str) -> pd.Series:
+    """Coerce values using the existing SQL table type, not only OData metadata.
+
+    Query web services can expose date/time fields as Edm.String even when the
+    bronze table was originally created as a SQL date/time type.  In that case
+    binding the raw BC zero-date (year 0001) as text makes pyodbc fail with
+    22018.  Pandas cannot represent that sentinel and safely converts it to
+    NaT/NULL, while preserving normal SQL-compatible values.
+    """
+    data_type = (sql_type or "").lower()
+
+    if data_type in ("datetimeoffset", "datetime2", "datetime", "smalldatetime"):
+        values = pd.to_datetime(
+            _null_bc_zero_dates(series),
+            errors="coerce",
+            utc=(data_type == "datetimeoffset"),
+        )
+        if data_type == "datetime":
+            values = values.where(values >= pd.Timestamp("1753-01-01"), pd.NaT)
+        elif data_type == "smalldatetime":
+            values = values.where(
+                (values >= pd.Timestamp("1900-01-01"))
+                & (values <= pd.Timestamp("2079-06-06")),
+                pd.NaT,
+            )
+        return values
+
+    if data_type == "date":
+        values = pd.to_datetime(_null_bc_zero_dates(series), errors="coerce")
+        return pd.Series(
+            [value.date() if not pd.isna(value) else None for value in values],
+            index=series.index,
+        )
+
+    if data_type == "time":
+        values = pd.to_datetime(series, errors="coerce")
+        return pd.Series(
+            [value.time() if not pd.isna(value) else None for value in values],
+            index=series.index,
+        )
+
+    if data_type in (
+        "tinyint", "smallint", "int", "bigint", "decimal", "numeric",
+        "money", "smallmoney", "float", "real",
+    ):
+        return pd.to_numeric(series, errors="coerce")
+
+    if data_type == "bit":
+        return _coerce_series(series, "bool")
+
+    if data_type == "uniqueidentifier":
+        return series.where(series.notna(), None).astype(object)
+
+    return series
+
+
 def prepare_records_df(
     records: list[dict[str, Any]],
     table_columns: list[str],
     column_specs: dict[str, ColumnSpec],
+    target_column_info: dict[str, dict[str, Any]] | None = None,
 ) -> pd.DataFrame:
     df = pd.DataFrame(records)
     if df.empty:
@@ -918,6 +985,10 @@ def prepare_records_df(
     df = df[valid_columns]
 
     for col in valid_columns:
+        target = (target_column_info or {}).get(col)
+        if target:
+            df[col] = _coerce_series_for_target_sql(df[col], target["data_type"])
+            continue
         spec = column_specs.get(col)
         if not spec:
             continue
@@ -929,9 +1000,27 @@ def prepare_records_df(
     return df
 
 
-def build_insert_dtype_map(df: pd.DataFrame, column_specs: dict[str, ColumnSpec]) -> dict[str, Any]:
+def build_insert_dtype_map(
+    df: pd.DataFrame,
+    column_specs: dict[str, ColumnSpec],
+    target_column_info: dict[str, dict[str, Any]] | None = None,
+) -> dict[str, Any]:
     dtype_map: dict[str, Any] = {}
     for col in df.columns:
+        target = (target_column_info or {}).get(col)
+        if target:
+            data_type = target["data_type"]
+            if data_type == "datetimeoffset":
+                dtype_map[col] = DATETIMEOFFSET()
+            elif data_type in ("datetime2", "datetime", "smalldatetime"):
+                dtype_map[col] = DATETIME2()
+            elif data_type == "date":
+                dtype_map[col] = DATE()
+            elif data_type == "time":
+                dtype_map[col] = TIME()
+            elif data_type in ("nvarchar", "varchar", "nchar", "char", "text", "ntext"):
+                dtype_map[col] = NVARCHAR(length=4000)
+            continue
         spec = column_specs.get(col)
         if spec and spec.category == "string":
             dtype_map[col] = NVARCHAR(length=4000)
@@ -964,11 +1053,21 @@ def insert_batch_to_table(
     table_columns: list[str],
     column_specs: dict[str, ColumnSpec],
 ) -> int:
-    df = prepare_records_df(records, table_columns, column_specs)
+    target_column_info = get_sql_column_info(engine, schema, table_name)
+    df = prepare_records_df(
+        records,
+        table_columns,
+        column_specs,
+        target_column_info=target_column_info,
+    )
     if df.empty:
         return 0
 
-    dtype_map = build_insert_dtype_map(df, column_specs)
+    dtype_map = build_insert_dtype_map(
+        df,
+        column_specs,
+        target_column_info=target_column_info,
+    )
     with engine.begin() as conn:
         df.to_sql(
             table_name,

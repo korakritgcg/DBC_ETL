@@ -7,6 +7,7 @@ import logging
 import urllib.parse
 import uuid
 import xml.etree.ElementTree as ET
+from pathlib import Path
 
 import pandas as pd
 import requests
@@ -20,6 +21,8 @@ MAX_RETRIES = 5
 RETRY_BACKOFF = 10
 ROWS_PER_COMMIT = 15000
 TOKEN_TTL = 3000
+LOCAL_DIR = Path(__file__).resolve().parent
+DEFAULT_DAGS_DIR = Path("/opt/airflow/dags")
 
 
 def get_logger(name: str) -> logging.Logger:
@@ -27,10 +30,20 @@ def get_logger(name: str) -> logging.Logger:
 
 
 def load_configs():
-    with open("/opt/airflow/dags/_config_DBC.json", encoding="utf-8") as f:
+    # The DAGs are deployed below /opt/airflow/dags/DBC_ETL.  Resolve config
+    # relative to this module first, while retaining the old root-level path
+    # as a backwards-compatible fallback for older deployments.
+    bc_path = LOCAL_DIR / "_config_DBC.json"
+    sql_path = LOCAL_DIR / "_config_sql.json"
+    if not bc_path.exists():
+        bc_path = DEFAULT_DAGS_DIR / "_config_DBC.json"
+    if not sql_path.exists():
+        sql_path = DEFAULT_DAGS_DIR / "_config_sql.json"
+
+    with bc_path.open(encoding="utf-8") as f:
         bc = json.load(f)
 
-    with open("/opt/airflow/dags/_config_sql.json", encoding="utf-8") as f:
+    with sql_path.open(encoding="utf-8") as f:
         sql = json.load(f)
 
     return bc, sql
@@ -230,6 +243,15 @@ _SQL_STRING_TYPES = {
 }
 
 
+def _null_bc_zero_dates(series: "pd.Series") -> "pd.Series":
+    """Replace BC's year-0001 sentinel before dateutil can read it as 2001."""
+    zero_date = series.astype("string").str.match(
+        r"^\s*0*1-0?1-0?1(?:[ T]|$)",
+        na=False,
+    )
+    return series.mask(zero_date)
+
+
 def _build_dtype_map(df: "pd.DataFrame", col_types: dict) -> dict:
     """
     Build the dtype map passed to df.to_sql().
@@ -273,10 +295,10 @@ def _coerce_for_sql_type(series: "pd.Series", sql_type: str) -> "pd.Series":
     t = (sql_type or "").lower()
 
     if t in ("date", "datetime2", "datetimeoffset"):
-        return pd.to_datetime(series, errors="coerce")
+        return pd.to_datetime(_null_bc_zero_dates(series), errors="coerce")
 
     if t in ("datetime", "smalldatetime"):
-        d = pd.to_datetime(series, errors="coerce")
+        d = pd.to_datetime(_null_bc_zero_dates(series), errors="coerce")
         if t == "smalldatetime":
             lo, hi = pd.Timestamp("1900-01-01"), pd.Timestamp("2079-06-06")
         else:
