@@ -16,7 +16,7 @@ default_args = {
 }
 
 with DAG(
-    dag_id='Warehouse_Entries_Excel',
+    dag_id='Old_Warehouse_Entries_Excel',
     start_date=datetime(2026, 1, 1),
     schedule='5,20,35,50 * * * *',
     catchup=False,

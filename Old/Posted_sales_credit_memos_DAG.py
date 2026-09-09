@@ -16,7 +16,7 @@ default_args = {
 }
 
 with DAG(
-    dag_id='Posted_sales_credit_memos',
+    dag_id='Old_Posted_sales_credit_memos',
     start_date=datetime(2026, 1, 1),
     schedule='40 6 * * *',
     catchup=False,

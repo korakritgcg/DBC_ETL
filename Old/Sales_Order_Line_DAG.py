@@ -16,7 +16,7 @@ default_args = {
 }
 
 with DAG(
-    dag_id='Sales_Order_Line',
+    dag_id='Old_Sales_Order_Line',
     start_date=datetime(2026, 1, 1),
     schedule='30 4 * * *',
     catchup=False,
