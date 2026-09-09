@@ -8,7 +8,7 @@ from DBC_ETL.Old.Monthly_Reload_Item_Ledger_Entries import run_etl as run_item_l
 # - Schedule kept frequent so BC's Adjust Cost shifts (Expected -> Actual)
 #   on Item_Ledger FlowFields are reflected within a few days.
 # - Only Item_Ledger is reconciled here. GL reload has been removed.
-# - Shares 'sql_incremental_pool' with the 15-min incremental writers so it
+# - Shares 'bc_incremental_pool' with the 15-min incremental writers so it
 #   never writes to those tables concurrently.
 
 default_args = {
@@ -34,6 +34,6 @@ with DAG(
     item_ledger_task = PythonOperator(
         task_id='reload_Item_Ledger_Entries',
         python_callable=run_item_ledger,
-        pool='sql_incremental_pool',
+        pool='bc_incremental_pool',
         priority_weight=120,
     )

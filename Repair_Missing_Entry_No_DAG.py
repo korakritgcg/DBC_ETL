@@ -48,6 +48,6 @@ with DAG(
     repair_task = PythonOperator(
         task_id="repair_missing_entry_no",
         python_callable=run_repair_from_dag,
-        pool="sql_incremental_pool",
+        pool="bc_incremental_pool",
         priority_weight=100,
     )

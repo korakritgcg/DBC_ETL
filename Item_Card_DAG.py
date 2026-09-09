@@ -32,6 +32,6 @@ with DAG(
         retries=2,
         retry_delay=timedelta(minutes=10),
         execution_timeout=timedelta(hours=1),
-        pool='sql_light_pool',
+        pool='bc_full_light_pool',
         priority_weight=35,
     )
