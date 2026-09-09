@@ -10,7 +10,7 @@ default_args = {
 }
 
 with DAG(
-    dag_id="Old_Posted_Sales_Invoice",
+    dag_id="Posted_Sales_Invoice",
     start_date=datetime(2026, 1, 1),
     schedule="30 1 * * *",
     catchup=False,

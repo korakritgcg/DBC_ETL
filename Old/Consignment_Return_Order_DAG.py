@@ -16,7 +16,7 @@ default_args = {
 }
 
 with DAG(
-    dag_id='Old_Consignment_Return_Order',
+    dag_id='Consignment_Return_Order',
     start_date=datetime(2026, 1, 1),
     schedule='20 7 * * *',
     catchup=False,

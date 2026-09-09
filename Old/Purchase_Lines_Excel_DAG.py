@@ -16,7 +16,7 @@ default_args = {
 }
 
 with DAG(
-    dag_id='Old_Purchase_Lines_Excel',
+    dag_id='Purchase_Lines_Excel',
     start_date=datetime(2026, 1, 1),
     schedule='30 5 * * *',
     catchup=False,

@@ -16,7 +16,7 @@ default_args = {
 }
 
 with DAG(
-    dag_id='Old_Item_Categories',
+    dag_id='Item_Categories',
     start_date=datetime(2026, 1, 1),
     schedule='15 8 * * *',
     catchup=False,

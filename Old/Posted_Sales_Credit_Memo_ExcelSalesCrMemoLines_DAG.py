@@ -16,7 +16,7 @@ default_args = {
 }
 
 with DAG(
-    dag_id='Old_Posted_Sales_Credit_Memo_ExcelSalesCrMemoLines',
+    dag_id='Posted_Sales_Credit_Memo_ExcelSalesCrMemoLines',
     start_date=datetime(2026, 1, 1),
     schedule='30 2 * * *',
     catchup=False,

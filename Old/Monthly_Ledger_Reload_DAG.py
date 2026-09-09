@@ -21,7 +21,7 @@ default_args = {
 }
 
 with DAG(
-    dag_id='Old_Monthly_Ledger_Reload',
+    dag_id='Monthly_Ledger_Reload',
     start_date=datetime(2026, 1, 1),
     schedule='0 4 * * 0,3',
     catchup=False,

@@ -1,7 +1,7 @@
 from airflow import DAG
 from airflow.operators.python import PythonOperator
 from datetime import datetime, timedelta
-from DBC_ETL.Consignment_Return_Order import run_etl
+from DBC_ETL.Old.Consignment_Return_Order import run_etl
 
 # Optimized schedule generated for SQL-load control.
 # - catchup=False prevents backlog storms.

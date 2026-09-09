@@ -15,7 +15,7 @@ default_args = {
 }
 
 with DAG(
-    dag_id='Old_DBC_to_Slip',
+    dag_id='DBC_to_Slip',
     start_date=datetime(2026, 1, 1),
     schedule='10 * * * *',          # every hour at minute 10
     catchup=False,

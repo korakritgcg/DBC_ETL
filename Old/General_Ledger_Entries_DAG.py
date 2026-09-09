@@ -16,7 +16,7 @@ default_args = {
 }
 
 with DAG(
-    dag_id='Old_General_Ledger_Entries',
+    dag_id='General_Ledger_Entries',
     start_date=datetime(2026, 1, 1),
     schedule='8,23,38,53 * * * *',
     catchup=False,

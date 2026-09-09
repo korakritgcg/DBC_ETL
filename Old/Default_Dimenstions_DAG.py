@@ -16,7 +16,7 @@ default_args = {
 }
 
 with DAG(
-    dag_id='Old_Default_Dimenstions',
+    dag_id='Default_Dimenstions',
     start_date=datetime(2026, 1, 1),
     schedule='45 8 * * *',
     catchup=False,
