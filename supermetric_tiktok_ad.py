@@ -6,6 +6,7 @@ request URLs, database connection strings, or source rows in log messages.
 
 from __future__ import annotations
 
+import json
 import logging
 import os
 import random
@@ -1534,6 +1535,31 @@ def main() -> int:
 EMBEDDED_SUPERMETRICS_API_URL = "https://api.supermetrics.com/enterprise/query/s/2215c812acd311f189d142010a0820226357ee3f86fad8d9eb9ab41a5311c16d/json"
 
 
+def _load_sql_config_env_values() -> dict[str, str]:
+    config_paths = (
+        Path(__file__).resolve().parent / "_config_sql.json",
+        Path("/opt/airflow/dags/_config_sql.json"),
+    )
+    for config_path in config_paths:
+        if not config_path.exists():
+            continue
+        with config_path.open(encoding="utf-8") as f:
+            sql_config = json.load(f)
+
+        server = str(sql_config.get("server", "")).strip()
+        port = str(sql_config.get("port", "")).strip()
+        return {
+            "DB_SERVER": f"{server},{port}" if server and port else server,
+            "DB_NAME": str(sql_config.get("database", "")).strip(),
+            "DB_USER": str(sql_config.get("username", "")).strip(),
+            "DB_PASSWORD": str(sql_config.get("password", "")),
+            "DB_DRIVER": str(
+                sql_config.get("driver", "ODBC Driver 18 for SQL Server")
+            ).strip(),
+        }
+    return {}
+
+
 def load_config(
     env_path: str | os.PathLike[str] = ".env",
     environ: Mapping[str, str] | None = None,
@@ -1552,9 +1578,13 @@ def load_config(
         }
 
     process_values = dict(os.environ if environ is None else environ)
+    sql_config_values = _load_sql_config_env_values()
 
     def get_value(name: str) -> str | None:
-        value = process_values.get(name, file_values.get(name))
+        value = process_values.get(
+            name,
+            file_values.get(name, sql_config_values.get(name)),
+        )
         if not isinstance(value, str):
             return value
         return value if name == "DB_PASSWORD" else value.strip()
