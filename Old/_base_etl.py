@@ -7,6 +7,7 @@ import logging
 import urllib.parse
 import uuid
 import xml.etree.ElementTree as ET
+from pathlib import Path
 
 import pandas as pd
 import requests
@@ -20,6 +21,8 @@ MAX_RETRIES = 5
 RETRY_BACKOFF = 10
 ROWS_PER_COMMIT = 15000
 TOKEN_TTL = 3000
+LOCAL_DIR = Path(__file__).resolve().parent
+DEFAULT_DAGS_DIR = Path("/opt/airflow/dags")
 
 
 def get_logger(name: str) -> logging.Logger:
@@ -27,10 +30,19 @@ def get_logger(name: str) -> logging.Logger:
 
 
 def load_configs():
-    with open("/opt/airflow/dags/_config_DBC.json", encoding="utf-8") as f:
+    # Keep this ETL set self-contained: prefer its own configuration files.
+    # The root-level location remains only as a fallback for older deployments.
+    bc_path = LOCAL_DIR / "_config_DBC.json"
+    sql_path = LOCAL_DIR / "_config_sql.json"
+    if not bc_path.exists():
+        bc_path = DEFAULT_DAGS_DIR / "_config_DBC.json"
+    if not sql_path.exists():
+        sql_path = DEFAULT_DAGS_DIR / "_config_sql.json"
+
+    with bc_path.open(encoding="utf-8") as f:
         bc = json.load(f)
 
-    with open("/opt/airflow/dags/_config_sql.json", encoding="utf-8") as f:
+    with sql_path.open(encoding="utf-8") as f:
         sql = json.load(f)
 
     return bc, sql
