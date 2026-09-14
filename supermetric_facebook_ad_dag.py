@@ -20,7 +20,7 @@ if str(DAG_DIR) not in sys.path:
     dag_id="supermetric_facebook_ad",
     description="Load Supermetrics Facebook Ads data into bronze.supermetrics_facebook_ad.",
     start_date=datetime(2026, 9, 14),
-    schedule=None,
+    schedule="0 10 * * *",
     catchup=False,
     max_active_runs=1,
     tags=["supermetrics", "facebook", "ads", "bronze"],
